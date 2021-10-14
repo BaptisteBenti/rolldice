@@ -1,6 +1,23 @@
-# Getting Started with Create React App
+# Rolldice
 
+This project is an exercice. It recreates the [roll a dice app from google](https://www.google.com/search?q=roll+dice) and it uses google's images.
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Main Features
+
+- roll a d4, d6, d8, d10, d12, or d20
+- reroll all the dice
+- remove one dice frome the tray
+- reset: remove all the dice from the tray
+- display the total dice score
+
+## Built With
+
+- [React](https://reactjs.org/)
+  - [Create React App](https://create-react-app.dev/)
+  - [React Context API](https://reactjs.org/docs/context.html)
+- [Typescript](https://www.typescriptlang.org/)
+- [JSS](https://cssinjs.org/?v=v10.8.0)
 
 ## Available Scripts
 
