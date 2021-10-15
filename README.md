@@ -3,6 +3,8 @@
 This project is an exercice. It recreates the [roll a dice app from google](https://www.google.com/search?q=roll+dice) and it uses google's images.
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+![rollDiceScreenshot](https://raw.githubusercontent.com/BaptisteBenti/rolldice/main/src/assets/images/screenshot-roll-dice.png)
+
 ## Main Features
 
 - roll a d4, d6, d8, d10, d12, or d20
