@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { DiceProvider } from './context/dice/DiceContext'
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <DiceProvider>
+      <App />
+    </DiceProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

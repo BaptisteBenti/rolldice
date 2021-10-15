@@ -1,75 +1,13 @@
-import { useReducer, useEffect, MouseEvent } from 'react'
+import { useReducer, useEffect, MouseEvent, useContext } from 'react'
+import { DiceContext } from './context/dice/DiceContext'
 import './App.css';
-
-interface IState {
-  dice: number[]
-  roll: {
-    dice: number
-    score: number
-  }[]
-  modifier: number
-  total: number
-}
-
-type TAction =
-| { type: "roll" ; payload: number }
-| { type: "remove" ; payload: number }
-| { type: "reroll" }
-| { type: "reset" }
-| { type: "total" ; payload: number }
-
-const initialState:IState = {
-  dice: [ 4,6,8,10,12,20 ],
-  roll: [],
-  modifier: 0,
-  total: 0
-}
-
-const reducer = ( state: IState, action: TAction ) => {
-  switch ( action.type ) {
-    case 'roll': return {
-      ...state,
-      roll: [
-        ...state.roll,
-        {
-          dice: action.payload,
-          score: getRand( 1, action.payload )
-        }
-      ]
-    }
-    case 'remove': return {
-      ...state,
-      roll: state.roll.filter(( _, index ) => index !== action.payload )
-    }
-    case 'reroll': return {
-      ...state,
-      roll: state.roll.map( rolled => {
-        return {
-          ...rolled,
-          score: getRand( 1, rolled.dice )
-        }
-      })
-    }
-    case 'reset': return {
-      ...state, roll: []
-    }
-    case 'total': return {
-      ...state, total: action.payload
-    }
-    default: throw new Error()
-  }
-}
 
 function App() {
 
-  const [ state, dispatch ] = useReducer( reducer, initialState )
+  const { state, action } = useContext( DiceContext )
 
   useEffect( () => {
-    const scores = state.roll.map( dice => dice.score )
-    dispatch({
-      type: 'total',
-      payload: scores.length ? scores.reduce(( a, b) => a + b ) : 0
-    })
+    action.total()
   }, [ state.roll ])
 
   const handleClick = ( event: MouseEvent<HTMLButtonElement> ):void => {
@@ -78,17 +16,17 @@ function App() {
     const actionPayload = ( event.target as HTMLButtonElement ).dataset.payload
     switch (actionType) {
       case 'roll':
-        actionPayload && dispatch({ type: 'roll', payload: +actionPayload })
+        actionPayload && action.roll( +actionPayload )
         break
-        case 'remove':
-          actionPayload && dispatch({ type: 'remove', payload: +actionPayload })
-          break
-        case 'reroll':
-          dispatch({ type: 'reroll' })
-          break
-        case 'reset':
-          dispatch({ type: 'reset' })
-          break
+      case 'remove':
+        actionPayload && action.remove( +actionPayload )
+        break
+      case 'reroll':
+        action.reroll()
+        break
+      case 'reset':
+        action.reset()
+        break
       default:
         break
     }
@@ -142,9 +80,3 @@ function App() {
 }
 
 export default App;
-
-function getRand(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
